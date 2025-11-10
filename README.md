@@ -31,3 +31,7 @@ reply
 {string1;string3;190;}
 {string1;string4;190;}
 {string1;string5;190;}
+
+
+
+UML Diagram is included in the "CS361 Microservice 2 UML.png" file within the repository.
