@@ -6,7 +6,6 @@ PIPELINE = "examplepipeline.txt"        # enter location + file extension for pi
 SLEEP_INTERVAL = 2                      # replace with number of seconds program should wait between checks
 
 
-
 # functions, trying to split up to make modifying easier
 # program is set up to not rely on structs or objects, just that data is requested to align with the communication contract
 
