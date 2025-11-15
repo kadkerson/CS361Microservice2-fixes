@@ -1,8 +1,8 @@
 import tkinter as tk
 import os
 
-FILENAME = "examplepipeline.txt"
-PROPERTY = ["string1", "", ""]          # change if needed during video presentation
+FILENAME = "pipeline"
+PROPERTY = "{author;Christopher Paolini}"         # change if needed during video presentation
 
 
 
@@ -49,8 +49,7 @@ def make_request():
 
     with open(FILENAME, "w") as f:
         f.write("request\n")
-        formattedstr = ";".join(PROPERTY) + ";"
-        f.write(f"{{{formattedstr}}}\n")
+        f.write(PROPERTY)
 
     for widget in scrollableFrame.winfo_children():
         widget.destroy()
@@ -86,22 +85,22 @@ def display_results(data_lines):
         if not (line.startswith("{") and line.endswith("}")):
             continue
 
-        content = line[1:-1]
-        parts = [p for p in content.split(";") if p]
+        #content = line[1:-1]
+        #parts = [p for p in content.split(";") if p]
 
-        if len(parts) != 3:
-            continue
+        #if len(parts) != 3:
+            #continue
 
-        prop1, prop2, prop3 = parts
+        #prop1, prop2, prop3 = parts
         frame = tk.Frame(scrollableFrame, bg="white", bd=1, relief="flat")
         frame.pack(pady=5, padx=(115,5))
 
-        obj_index += 1
-
-        tk.Label(frame, text=f"Object {obj_index} properties:", font="Courier", bg="white").pack(side="left", padx=(0,10))
-        tk.Label(frame, text=f"{parts[0]},", font="Courier", bg="white").pack(side="left", padx=(0,10))
-        tk.Label(frame, text=f"{parts[1]},", font="Courier", bg="white").pack(side="left", padx=(0,10))
-        tk.Label(frame, text=f"{parts[2]}", font="Courier", bg="white").pack(side="left", padx=(0,10))
+        #obj_index += 1
+        tk.Label(frame, text=f"{line}").pack(side="left", padx=(0,10))
+        #tk.Label(frame, text=f"Object {obj_index} properties:", font="Courier", bg="white").pack(side="left", padx=(0,10))
+        #tk.Label(frame, text=f"{parts[0]},", font="Courier", bg="white").pack(side="left", padx=(0,10))
+        #tk.Label(frame, text=f"{parts[1]},", font="Courier", bg="white").pack(side="left", padx=(0,10))
+        #tk.Label(frame, text=f"{parts[2]}", font="Courier", bg="white").pack(side="left", padx=(0,10))
 
 
 
