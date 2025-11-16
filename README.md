@@ -3,7 +3,7 @@ communication contract
 
 requesting data in pipeline:
 
-should contain two lines in a text document. First line should be the string request second line should be a request in the format of your database. Database should be in the form of one json object per line in a text document. 
+should contain two lines in a text document. Text document should be titled examplepipeline.txt or change constant in start of microservice program PIPELINE= First line should be the string request second line should be a request in the format of your database. Database should be in the form of one json object per line in a text document. 
 For example, a database like the following:
 
 {"id": "001", "title": "Eragon", "author": "Christopher Paolini", "genre": "Fantasy", "year": 2002, "pages": 544}
