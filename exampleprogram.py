@@ -1,8 +1,9 @@
 import tkinter as tk
 import os
+import json
 
-FILENAME = "pipeline"
-PROPERTY = "{author;Christopher Paolini}"         # change if needed during video presentation
+FILENAME = "examplepipeline.txt"
+PROPERTY = ["001", "", "", "", "", ""]         # change if needed during video presentation
 
 
 
@@ -12,13 +13,13 @@ root = tk.Tk()
 
 root.configure(background="white")
 root.title("example program")
-root.geometry("700x600")
+root.geometry("1050x600")
 
 global title
 title = tk.Label(root, text="Click the button to send a data request!", font="Courier", background="white")
 title.pack(pady=(150,10))
 
-searchButton = tk.Button(root, text=f"Search for objects with property {PROPERTY[0]}", bg="white", command=lambda: make_request())
+searchButton = tk.Button(root, text=f"Search for objects with ID {PROPERTY[0]}", bg="white", command=lambda: make_request())
 searchButton.pack()
 
 canvasFrame = tk.Frame(root, bg="white")
@@ -49,7 +50,8 @@ def make_request():
 
     with open(FILENAME, "w") as f:
         f.write("request\n")
-        f.write(PROPERTY)
+        obj = {"id": f"{PROPERTY[0]}", "title": f"{PROPERTY[1]}", "author": f"{PROPERTY[2]}", "genre": f"{PROPERTY[3]}", "year": f"{PROPERTY[4]}", "pages": f"{PROPERTY[5]}"}
+        f.write(json.dumps(obj))
 
     for widget in scrollableFrame.winfo_children():
         widget.destroy()
@@ -64,7 +66,11 @@ def check_for_reply():
         lines = [line.strip() for line in f.readlines() if line.strip()]
 
     if len(lines) > 1 and lines[0].lower() == "reply":
-        display_results(lines[1:])
+        objects = []
+        for line in lines[1:]:
+            obj = json.loads(line)
+            objects.append(obj)
+        display_results(objects)
 
     root.after(2000, check_for_reply)
 
@@ -72,35 +78,20 @@ def check_for_reply():
 
 def display_results(data_lines):
 
-    obj_index = 0
-
     for widget in scrollableFrame.winfo_children():
         widget.destroy()
 
     if not data_lines:
         tk.Label(frame, text="No objects have that property...", font="Courier", bg="white").pack(side="left", padx=10)
+        return
 
-    for line in data_lines:
+    for a, obj in enumerate(data_lines, start=1):
 
-        if not (line.startswith("{") and line.endswith("}")):
-            continue
-
-        #content = line[1:-1]
-        #parts = [p for p in content.split(";") if p]
-
-        #if len(parts) != 3:
-            #continue
-
-        #prop1, prop2, prop3 = parts
         frame = tk.Frame(scrollableFrame, bg="white", bd=1, relief="flat")
-        frame.pack(pady=5, padx=(115,5))
-
-        #obj_index += 1
-        tk.Label(frame, text=f"{line}").pack(side="left", padx=(0,10))
-        #tk.Label(frame, text=f"Object {obj_index} properties:", font="Courier", bg="white").pack(side="left", padx=(0,10))
-        #tk.Label(frame, text=f"{parts[0]},", font="Courier", bg="white").pack(side="left", padx=(0,10))
-        #tk.Label(frame, text=f"{parts[1]},", font="Courier", bg="white").pack(side="left", padx=(0,10))
-        #tk.Label(frame, text=f"{parts[2]}", font="Courier", bg="white").pack(side="left", padx=(0,10))
+        frame.pack(pady=5, padx=(25,5))
+        
+        for key, value in obj.items():
+            tk.Label(frame, text=f"{key}: {value}", font="Courier", bg="white").pack(side="left", padx=(0,20))
 
 
 
